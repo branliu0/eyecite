@@ -13,6 +13,7 @@ Changes:
 Fixes:
 - Modifies rendering of AhocorasickTokenizer parameter in API docs II
 - Fixes dropping of nominative reporter due to overlapping CitationTokens
+- No longer removing lowercase words from plaintiff
 
 ## Current
 
