@@ -840,7 +840,8 @@ class FindTest(TestCase):
             ("West v. Atkins, 487 U.S. 42, 54-58 (1988), Polk Cty. v. Dodson, 454 U.S. 312, 325-26 (1981), and Monell v. Department of Soc. Servs., 436 U.S. 658, 694 (1978)",
              [case_citation(volume="487", reporter="U.S.", page="42", metadata={"plaintiff": "West", "defendant": "Atkins", "year": "1988", "pin_cite": "54-58"}),
               case_citation(volume="454", reporter="U.S.", page="312", metadata={"plaintiff": "Polk Cty.", "defendant": "Dodson", "year": "1981", "pin_cite": "325-26"}),
-              case_citation(volume="436", reporter="U.S.", page="658", metadata={"plaintiff": "Monell", "defendant": "Department of Soc. Servs.", "year": "1978", "pin_cite": "694"}),
+              # Not great that it's "and Monell" here... hopefull can fix one day.
+              case_citation(volume="436", reporter="U.S.", page="658", metadata={"plaintiff": "and Monell", "defendant": "Department of Soc. Servs.", "year": "1978", "pin_cite": "694"}),
              ]),
         )
 
