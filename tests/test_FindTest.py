@@ -1218,12 +1218,11 @@ class FindTest(TestCase):
         the current citation. However, we can trust that the post citation matching
         worked correctly for the first of the parallel citations.
         """
-        text = "Kaiser Steel Corp. v. W.S. Ranch Co., 391 U.S. 593, 598, 88 S. Ct. 1753, 20 L.Ed.2d 835 (1968). We have previously held that the automatic stay provisions of the Bankruptcy Code may toll the statute of limitations under the Warsaw Convention, which is the precursor to the Montreal Convention. See Zicherman v. Korean Air Lines Co., Ltd., 516 F.3d 1237, 1254 (11th Cir. 2008)"
+        text = "Kaiser Steel Corp. v. W.S. Ranch Co., 391 U.S. 593, 598, 88 S. Ct. 1753, 20 L.Ed.2d 835 (1968). We have previously held that the automatic stay provisions of the Bankruptcy Code may toll the statute the Montreal Convention. See Zicherman v. Korean Air Lines Co., Ltd., 516 F.3d 1237, 1254 (11th Cir. 2008)"
         citations = get_citations(text)
-        full_span_end = citations[0].full_span_end
-        self.assertEqual(citations[0].full_span_end, full_span_end)
-        self.assertEqual(citations[1].full_span_end, full_span_end)
-        self.assertEqual(citations[2].full_span_end, full_span_end)
+        self.assertEqual(citations[0].full_span_end, 94)
+        self.assertEqual(citations[1].full_span_end, 94)
+        self.assertEqual(citations[2].full_span_end, 94)
 
     def test_reference_extraction_using_resolved_names(self):
         """Can we extract a reference citation using resolved metadata?"""
