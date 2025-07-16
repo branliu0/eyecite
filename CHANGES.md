@@ -14,6 +14,7 @@ Fixes:
 - Modifies rendering of AhocorasickTokenizer parameter in API docs II
 - Fixes dropping of nominative reporter due to overlapping CitationTokens
 - No longer removing lowercase words from plaintiff
+- Fixes full_span_end not always being the same among parallel citations
 
 ## Current
 

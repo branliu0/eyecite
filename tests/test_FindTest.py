@@ -842,7 +842,8 @@ class FindTest(TestCase):
               case_citation(volume="454", reporter="U.S.", page="312", metadata={"plaintiff": "Polk Cty.", "defendant": "Dodson", "year": "1981", "pin_cite": "325-26"}),
               # Not great that it's "and Monell" here... hopefull can fix one day.
               case_citation(volume="436", reporter="U.S.", page="658", metadata={"plaintiff": "and Monell", "defendant": "Department of Soc. Servs.", "year": "1978", "pin_cite": "694"}),
-             ]),
+             ],
+            {'clean_steps': ['html', 'inline_whitespace']}),
         )
 
         # fmt: on
@@ -1207,6 +1208,22 @@ class FindTest(TestCase):
             self.assertEqual(
                 extracted.full_span(), (start_idx, len(sentence)), error_msg
             )
+
+    def test_parallel_full_span(self):
+        """Parallel citations should have the same full_span_end
+
+        Note: it seems that the full_span_end can sometimes differ for a parallel
+        citation due to the way POST_FULL_CITATION_REGEX is defined. Under certain
+        conditions, it can end up matching to the next citation as opposed to the end of
+        the current citation. However, we can trust that the post citation matching
+        worked correctly for the first of the parallel citations.
+        """
+        text = "Kaiser Steel Corp. v. W.S. Ranch Co., 391 U.S. 593, 598, 88 S. Ct. 1753, 20 L.Ed.2d 835 (1968). We have previously held that the automatic stay provisions of the Bankruptcy Code may toll the statute of limitations under the Warsaw Convention, which is the precursor to the Montreal Convention. See Zicherman v. Korean Air Lines Co., Ltd., 516 F.3d 1237, 1254 (11th Cir. 2008)"
+        citations = get_citations(text)
+        full_span_end = citations[0].full_span_end
+        self.assertEqual(citations[0].full_span_end, full_span_end)
+        self.assertEqual(citations[1].full_span_end, full_span_end)
+        self.assertEqual(citations[2].full_span_end, full_span_end)
 
     def test_reference_extraction_using_resolved_names(self):
         """Can we extract a reference citation using resolved metadata?"""
