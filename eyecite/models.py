@@ -507,8 +507,6 @@ class FullCaseCitation(CaseCitation, FullCitation):
             # California style may have a year prior to citation; merge as well
             self.metadata.year = preceding.metadata.year
             self.year = preceding.year
-            # Parallel citations should have the same full_span_end
-            # self.full_span_end = preceding.full_span_end
 
     @dataclass(eq=True, unsafe_hash=True)
     class Metadata(CaseCitation.Metadata):
