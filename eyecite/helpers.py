@@ -210,6 +210,12 @@ def _scan_for_case_boundaries(
 
         # Handle citation tokens - just adjust the title boundary
         if isinstance(word, CitationToken):
+            # We already found a case name, so we're probably hitting a citation from a
+            # previous citation.
+            if state["candidate_case_name"] is not None:
+                break
+
+            # We're probably inside a parallel citation!
             state["title_starting_index"] = index - 1
             continue
 
@@ -218,7 +224,12 @@ def _scan_for_case_boundaries(
             word_str.endswith(";")
             or word_str.endswith("”")
             or word_str.endswith('"')
-            or (word_str.endswith("),") and state["v_token"] is not None)
+            # Maybe this is too specific... but it's to try to capture cases where
+            # multiple citations are in a row, separated by a comma.
+            or (
+                state["v_token"] is not None
+                and re.search(r"\)[.,…]+$", word_str)
+            )
         ):
             state["start_index"] = index + 2
             state["candidate_case_name"] = _extract_text(
@@ -227,13 +238,18 @@ def _scan_for_case_boundaries(
             break
 
         # Handle year before citation
+        # if re.match(r"^\(\d{4}\)$", word_str):
         if re.match(r"\(\d{4}\)", word_str):
             # Don't override title_starting_index if we already found a v. token
             # and have a case name set, as this would corrupt the extraction
             if state["v_token"] is None or not state["candidate_case_name"]:
                 state["title_starting_index"] = index - 1
-            state["pre_cite_year"] = word_str[1:5]
+
+            # # Only set the year if we don't already have a case name
+            if state["candidate_case_name"] is None:
+                state["pre_cite_year"] = word_str[1:5]
             continue
+            # state["pre_cite_year"] = word_str[1:5]
 
         # Break on opening parenthesis after first word
         if word_str.startswith("(") and state["case_name_length"] > 3:

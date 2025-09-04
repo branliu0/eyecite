@@ -842,8 +842,31 @@ class FindTest(TestCase):
               case_citation(volume="454", reporter="U.S.", page="312", metadata={"plaintiff": "Polk Cty.", "defendant": "Dodson", "year": "1981", "pin_cite": "325-26"}),
               # Not great that it's "and Monell" here... hopefull can fix one day.
               case_citation(volume="436", reporter="U.S.", page="658", metadata={"plaintiff": "and Monell", "defendant": "Department of Soc. Servs.", "year": "1978", "pin_cite": "694"}),
-             ],
-            {'clean_steps': ['html', 'inline_whitespace']}),
+             ]),
+            ("Yick Wo v. Hopkins, 118 U.S. 356 (1886). Zarnow v. City of Witchita Falls, 640 F.Supp. 844, 848 (N.D. Tx. 2009)",
+             [case_citation(volume="118", reporter="U.S.", page="356", metadata={"plaintiff": "Yick Wo", "defendant": "Hopkins", "year": "1886"}),
+              case_citation(volume="640", reporter="F.Supp.", page="844", metadata={"plaintiff": "Zarnow", "defendant": "City of Witchita Falls", "year": "2009", "pin_cite": "848"}),
+             ]),
+            ("Cir. 2004). Harlow v. Fitzgerald, 457 U.S. 800 (1982).. Houghton v. Foremost Fin. Srvs. Corp., 724 F.2d 112 (10th Cir. 1983). Howse",
+             [case_citation(volume="457", reporter="U.S.", page="800", metadata={"plaintiff": "Harlow", "defendant": "Fitzgerald", "year": "1982"}),
+              case_citation(volume="724", reporter="F.2d", page="112", metadata={"plaintiff": "Houghton", "defendant": "Foremost Fin. Srvs. Corp.", "year": "1983", "court": "ca10"}),
+             ]),
+            ("…………….……….9 Daubert v. Merrell Dow Pharm., Inc., 509 U.S. 579 (1993)……………………………………………………………………passim Gen. Electric Co. v. Joiner, 522 U.S. 136 (1997)…………………………………",
+             [case_citation(volume="509", reporter="U.S.", page="579", metadata={"plaintiff": "Daubert", "defendant": "Merrell Dow Pharm., Inc.", "year": "1993"}),
+             # Doesn't get the full plaintiff name... maybe could fix one day
+              case_citation(volume="522", reporter="U.S.", page="136", metadata={"plaintiff": "Co.", "defendant": "Joiner", "year": "1997"}),
+             ]),
+             # If you can get a space after the ellipses and before "passim" then it all works.
+            ("…………….……….9 Daubert v. Merrell Dow Pharm., Inc., 509 U.S. 579 (1993)…………………………………………………………………… passim Gen. Electric Co. v. Joiner, 522 U.S. 136 (1997)…………………………………",
+             [case_citation(volume="509", reporter="U.S.", page="579", metadata={"plaintiff": "Daubert", "defendant": "Merrell Dow Pharm., Inc.", "year": "1993"}),
+             # Doesn't get the full plaintiff name... maybe could fix one day
+              case_citation(volume="522", reporter="U.S.", page="136", metadata={"plaintiff": "Gen. Electric Co.", "defendant": "Joiner", "year": "1997"}),
+             ]),
+             # Just separated by a space, without a period or comma
+             ("Bell Atl. Corp. v. Twombly, 550 U.S. 544 (2007) Buck v. City of Albuquerque, 549 F.3d 1269",
+             [case_citation(volume="550", reporter="U.S.", page="544", metadata={"plaintiff": "Bell Atl. Corp.", "defendant": "Twombly", "year": "2007"}),
+              case_citation(volume="549", reporter="F.3d", page="1269", metadata={"plaintiff": "Buck", "defendant": "City of Albuquerque"}),
+             ]),
         )
 
         # fmt: on
