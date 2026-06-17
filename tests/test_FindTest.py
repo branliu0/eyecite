@@ -867,6 +867,10 @@ class FindTest(TestCase):
              [case_citation(volume="550", reporter="U.S.", page="544", metadata={"plaintiff": "Bell Atl. Corp.", "defendant": "Twombly", "year": "2007"}),
               case_citation(volume="549", reporter="F.3d", page="1269", metadata={"plaintiff": "Buck", "defendant": "City of Albuquerque"}),
              ]),
+             # No space between the comma and the start of the citation
+             ("Morris v. Slappy,461 U.S. 1, 11 (1983)",
+             [case_citation(volume="461", reporter="U.S.", page="1", metadata={"plaintiff": "Morris", "defendant": "Slappy", "pin_cite": "11", "year": "1983"}),
+             ]),
         )
 
         # fmt: on

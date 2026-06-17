@@ -193,6 +193,15 @@ def _scan_for_case_boundaries(
     words = document.words
     back_seek = citation.index - BACKWARD_SEEK
 
+    # title_starting_index marks the exclusive end of the case name and
+    # normally points at the whitespace separating the case name from the
+    # citation. If the comma after the case name has no following space
+    # (e.g. "Slappy,461 U.S. 1"), the word right before the citation is the
+    # defendant itself, so include it in the title.
+    prev_word = words[citation.index - 1] if citation.index > 0 else None
+    if isinstance(prev_word, str) and prev_word.endswith(","):
+        state["title_starting_index"] = citation.index
+
     for index in range(citation.index - 1, max(back_seek, -1), -1):
         word = words[index]
         word_str = str(word)
