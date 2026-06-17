@@ -410,17 +410,21 @@ def _process_case_name(
             antecedent_guess = strip_stop_words(defendant)
             citation.metadata.antecedent_guess = antecedent_guess
 
-        # Calculate full span start
-        offset = (
-            len(
-                "".join(
-                    str(w)
-                    for w in words[state["start_index"] : citation.index - 1]
-                )
-            )
-            + 1
+        # Calculate full span start. Normally the word right before the
+        # citation is the whitespace separator, so we stop before it and add 1
+        # for that separator. If the comma has no following space
+        # (e.g. "Slappy,461 U.S. 1"), that word is the defendant itself, so
+        # include it and add no separator.
+        prev_word = words[citation.index - 1]
+        no_separator = isinstance(prev_word, str) and prev_word.endswith(",")
+        end_index = citation.index if no_separator else citation.index - 1
+        separator_len = 0 if no_separator else 1
+        title = "".join(
+            str(w) for w in words[state["start_index"] : end_index]
         )
-        citation.full_span_start = citation.span()[0] - offset
+        citation.full_span_start = (
+            citation.span()[0] - len(title) - separator_len
+        )
 
     # Store year if found
     if state["pre_cite_year"]:

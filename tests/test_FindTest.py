@@ -1217,6 +1217,8 @@ class FindTest(TestCase):
             "497 Fed. Appx. 274 (4th Cir. 2012)",
             "Corp. v. Nature's Farm Prods., No. 99 Civ. 9404 (SHS), 2000 U.S. Dist. LEXIS 12335 (S.D.N.Y. Aug. 25, 2000)",
             "Alderson v. Concordia Par. Corr. Facility, 848 F.3d 415 (5th Cir. 2017)",
+            # No space between the comma and the start of the citation
+            "Morris v. Slappy,461 U.S. 1, 11 (1983)",
         ]
         for example in simple_examples:
             extracted = get_citations(example)[0]
